@@ -1,6 +1,6 @@
 <template>
   <div class="c-form-header">
-    <h3 class="c-form-header__price">{{`${price} zł`}}</h3>
+    <span class="c-form-header__price">{{`${price} zł`}}</span>
     <c-rating :rating="rating" :number-of-ratings="numberOfRatings"/>
   </div>
 </template>
@@ -29,6 +29,6 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>

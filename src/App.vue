@@ -1,5 +1,5 @@
 <template>
-  <c-form :data="data"/>
+  <c-form :data="data" />
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default defineComponent({
   setup () {
     const data = {
       price: 232,
-      rating: 4.3,
+      rating: 4.2,
       numberOfRatings: 123
     }
 
@@ -23,10 +23,6 @@ export default defineComponent({
 })
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+<style lang="scss">
+@import "assets/global.scss";
 </style>
