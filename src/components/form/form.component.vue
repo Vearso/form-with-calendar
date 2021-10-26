@@ -1,35 +1,23 @@
 <template>
-  <div/>
+  <div class="c-form">
+    <c-form-header :price="data.price" :rating="data.rating" :number-of-ratings="data.numberOfRatings" />
+  </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
+import CFormHeader from '@/components/form/components/form-header/form-header.component.vue'
 
 export default defineComponent({
   name: 'CForm',
+  components: { CFormHeader },
   props: {
-    price: {
-      type: Number,
-      required: true,
-    },
-    rate: {
-      type: Number,
-      required: true,
-    },
-    numberOfRatings: {
-      type: Number,
-      required: true,
-    },
-    availableDates: {
-      type: Array,
-      default: () => [],
-    },
-    selectedDates: {
-      type: Array,
-      default: () => [],
+    data: {
+      type: Object,
+      required: true
     }
   }
-});
+})
 </script>
 
 <style scoped>
