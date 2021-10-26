@@ -11,7 +11,7 @@ export default defineComponent({
   components: { CForm },
   setup () {
     const data = {
-      price: 232,
+      price: '232 zł',
       rating: 4.2,
       numberOfRatings: 123
     }
