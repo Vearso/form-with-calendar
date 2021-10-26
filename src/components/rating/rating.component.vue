@@ -1,12 +1,15 @@
 <template>
   <div class="c-rating">
-    <component
-      :is="index - .5 === getFixedRating(rating) ? 'c-icon-half-star' : 'c-icon-star'"
-      v-for="index of 5"
-      :key="index"
-      class="c-rating__star"
-      :class="[index - .5 <= getFixedRating(rating) && 'c-rating__star--filled' ]"
-    />
+    <div class="c-rating__stars">
+      <component
+        :is="index - .5 === getFixedRating(rating) ? 'c-icon-half-star' : 'c-icon-star'"
+        v-for="index of 5"
+        :key="index"
+        class="c-rating__star"
+        :class="[index - .5 <= getFixedRating(rating) && 'c-rating__star--filled' ]"
+      />
+    </div>
+    <span class="c-rating__number">{{ numberOfRatings }}</span>
   </div>
 </template>
 
@@ -33,7 +36,7 @@ export default defineComponent({
   },
   setup() {
     const getFixedRating = (rating) => {
-      return (Math.round(rating*2)/2).toFixed(1);
+      return (Math.round(rating * 2) / 2).toFixed(1);
     };
     return {
       getFixedRating,
@@ -44,6 +47,13 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .c-rating {
+  display: flex;
+  align-items: center;
+
+  &__number {
+    font-weight: bold;
+  }
+
   &__star {
     margin-right: .3rem;
 

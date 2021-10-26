@@ -1,7 +1,12 @@
 <template>
   <div class="c-form-header">
-    <span class="c-form-header__price">{{`${price} zł`}}</span>
-    <c-rating :rating="rating" :number-of-ratings="numberOfRatings"/>
+    <p class="c-form-header__price">
+      {{ `${price} zł` }}
+    </p>
+    <c-rating
+      :rating="rating"
+      :number-of-ratings="numberOfRatings"
+    />
   </div>
 </template>
 
@@ -30,5 +35,13 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-
+.c-form-header {
+  padding: 1.3rem 0;
+  border-bottom: 1px solid black;
+  &__price {
+    font-size: var(--font-size-30);
+    font-weight: bold;
+    margin: .8rem 0;
+  }
+}
 </style>
