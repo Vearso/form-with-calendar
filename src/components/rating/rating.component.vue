@@ -3,7 +3,7 @@
     <div class="c-rating__stars">
       <component
         :is="index - .5 === getFixedRating(rating) ? 'c-icon-half-star' : 'c-icon-star'"
-        v-for="index of 5"
+        v-for="index of numberOfStars"
         :key="index"
         class="c-rating__star"
         :class="[index - .5 <= getFixedRating(rating) && 'c-rating__star--filled' ]"
@@ -33,6 +33,10 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    numberOfStars: {
+      type: Number,
+      default: 5
+    }
   },
   setup() {
     const getFixedRating = (rating) => {
