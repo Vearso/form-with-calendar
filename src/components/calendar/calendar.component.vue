@@ -5,7 +5,10 @@
       @next-month="setNextMonth()"
       @prev-month="setPrevMonth()"
     />
-    <c-calendar-month :month="month" />
+    <c-calendar-month
+      :month="month"
+      @selection-end="() => {}"
+    />
   </div>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
   <div
     class="c-calendar-day"
-    :class="day.month !== CURRENT && 'c-calendar-day--not-current-month'"
+    :class="day.month !== CURRENT && 'c-calendar-day--inactive'"
   >
-    {{ day.value }}
+    {{ day.label }}
   </div>
 </template>
 
@@ -17,13 +17,13 @@ export default defineComponent({
     day: {
       type: Object,
       required: true,
-    }
+    },
   },
   setup() {
     return {
       CURRENT,
-    }
-  }
+    };
+  },
 });
 </script>
 
@@ -36,12 +36,50 @@ export default defineComponent({
   align-items: center;
   font-size: var(--font-size-18);
   cursor: pointer;
-  &:hover {
-    background-color: var(--primary-300);
+
+  &__range {
+    &--start {
+      border-radius: 50%;
+      position: relative;
+      background-color: var(--primary-500);
+
+      &:after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: -1;
+        border-radius: 50% 0 0 50%;
+        background-color: var(--primary-300);
+      }
+    }
+    &--end {
+      border-radius: 50%;
+      position: relative;
+      background-color: var(--primary-500);
+
+      &:before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: -1;
+        border-radius: 0 50% 50% 0;
+        background-color: var(--primary-300);
+      }
+    }
+
+    &--middle {
+      background-color: var(--primary-300);
+    }
   }
 
-  &--not-current-month {
+  &:hover {
+    background-color: var(--primary-500);
+  }
+
+  &--inactive {
     color: var(--gray-500);
-   }
+  }
 }
 </style>

@@ -32,14 +32,16 @@ export const useCalendar = () => {
     //First day of month is a number from 0 - 6 - we need to get 0 to 6 days from previous month
     const getPrevMonthLastDays = range(firstDayOfMonth).map(index => {
       return {
-        value: daysInPrevMonth - index,
+        date: new Date(prevMonth === 1 ? currentYear - 1 : currentYear, prevMonth, daysInPrevMonth - index),
+        label: daysInPrevMonth - index,
         month: PREVIOUS,
       };
     }).reverse();
 
     const getCurrentMonthDays = range(numberOfDaysInCurrentMonth).map(index => {
       return {
-        value: index + 1,
+        date: new Date(currentYear, currentMonth, index + 1),
+        label: index + 1,
         month: CURRENT,
       };
     });
@@ -47,7 +49,8 @@ export const useCalendar = () => {
     //6 is Saturday then we don't need any days from next month, in other case we need 6 - lastDayOfMonth days from 1 to 6;
     const getNextMonthFirstDays = range(lastDayOfMonth === 6 ? 0 : 6 - lastDayOfMonth).map(index => {
       return {
-        value: index + 1,
+        date:  currentMonth + 1 > 11 ? new Date(currentYear + 1, 0 ,index + 1) : new Date(currentYear, currentMonth + 1, index + 1),
+        label: index + 1,
         month: NEXT,
       };
     });
