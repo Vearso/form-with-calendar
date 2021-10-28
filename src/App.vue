@@ -1,17 +1,14 @@
 <template>
   <c-form :data="data" />
-  <c-calendar />
 </template>
 
 <script>
 import { defineComponent } from 'vue';
 import CForm               from '@/components/form/form.component.vue';
-import CCalendar           from '@/components/calendar/calendar.component.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    CCalendar,
     CForm,
   },
   setup() {
@@ -19,6 +16,7 @@ export default defineComponent({
       price: '232 zł',
       rating: 4.2,
       numberOfRatings: 123,
+      disabledDates: ['2021-10-13','2021-10-16']
     };
 
     return {

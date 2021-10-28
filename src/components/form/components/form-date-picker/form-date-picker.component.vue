@@ -2,21 +2,33 @@
   <div class="c-form-date-picker">
     <span class="c-form-date-picker__label">{{ label }}</span>
     <div class="c-form-date-picker__select">
-      <span class="c-form-date-picker__select__placeholder">{{ leftPlaceholder }}</span>
+      <span
+        class="c-form-date-picker__select__placeholder"
+        @click.stop="$emit('toggle-calendar', true)"
+      >{{ modelValue.min ? format(modelValue.min, 'yyyy-MM-dd') : leftPlaceholder }}</span>
       <c-icon-arrow-right />
-      <span class="c-form-date-picker__select__placeholder">{{ rightPlaceholder }}</span>
+      <span
+        class="c-form-date-picker__select__placeholder"
+        @click.stop="$emit('toggle-calendar', true)"
+      >{{ modelValue.max ? format(modelValue.max, 'yyyy-MM-dd') :rightPlaceholder }}</span>
     </div>
+    <slot />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
 import CIconArrowRight     from '@/components/icons/icon-arrow-right.component.vue';
+import { format }          from 'date-fns';
 
 export default defineComponent({
   name: 'CFormDatePicker',
-  components: { CIconArrowRight},
+  components: { CIconArrowRight },
   props: {
+    modelValue: {
+      type: Object,
+      required: true,
+    },
     label: {
       type: String,
       required: true,
@@ -30,15 +42,24 @@ export default defineComponent({
       default: 'Check Out',
     },
   },
+emits: ['toggle-calendar'],
+  setup(){
+    return {
+      format,
+    }
+  }
 });
 </script>
 
 <style scoped lang="scss">
 .c-form-date-picker {
   margin-top: 3.4rem;
+  position: relative;
+
   &__label {
     font-weight: bold;
   }
+
   &__select {
     display: flex;
     justify-content: space-between;

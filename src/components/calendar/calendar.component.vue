@@ -1,14 +1,21 @@
 <template>
-  <div class="c-calendar">
-    <c-calendar-header
-      :month-name="currentMonthAndYear"
-      @next-month="setNextMonth()"
-      @prev-month="setPrevMonth()"
-    />
-    <c-calendar-month
-      :month="month"
-      @selection-end="() => {}"
-    />
+  <div
+    class="c-shadow"
+    @click="$emit('close-calendar')"
+  >
+    <div class="c-calendar">
+      <c-calendar-header
+        :month-name="currentMonthAndYear"
+        @next-month="setNextMonth()"
+        @prev-month="setPrevMonth()"
+      />
+      <c-calendar-month
+        :disabled-dates="disabledDates"
+        :month="month"
+        :selected-dates="dateRange"
+        @selection="$emit('update:dateRange',$event)"
+      />
+    </div>
   </div>
 </template>
 
@@ -24,7 +31,17 @@ export default defineComponent({
     CCalendarHeader,
     CCalendarMonth,
   },
-  emits: [ 'next-month' ],
+  props: {
+    dateRange: {
+      type: Object,
+      required: true,
+    },
+    disabledDates: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  emits: [ 'next-month', 'update:dateRange', 'close-calendar' ],
   setup() {
     const {
       setNextMonth,
@@ -45,6 +62,9 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .c-calendar {
+  position: absolute;
+  top: 10rem;
+  left: 2rem;
   border: .1px solid black;
   display: flex;
   flex-direction: column;

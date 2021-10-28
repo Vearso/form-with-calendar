@@ -11,8 +11,8 @@
       v-for="(day,index) in month"
       :key="index"
       :day="day"
-      :class="getSelectionClasses(day.date)"
-      @click="handleSelection(day)"
+      :class="[getSelectionClasses(day.date), checkIfDateIsDisabled(day.date) ? 'c-calendar-day--inactive' : 'c-calendar-day--active']"
+      @click.stop="handleSelection(day)"
       @mouseenter="updateSelection(day)"
       @mouseleave="deleteSelection(day)"
     />
@@ -23,74 +23,91 @@
 import {
   defineComponent,
   reactive,
-  watch,
-}                   from 'vue';
-import CCalendarDay from '@/components/calendar/components/calendar-day/calendar-day.vue';
+}                         from 'vue';
+import CCalendarDay       from '@/components/calendar/components/calendar-day/calendar-day.vue';
 import { shortWeekNames } from '@/components/calendar/hooks/use-calendar';
 import {
   isBefore,
   isAfter,
+  format,
+  parseISO,
 }                         from 'date-fns';
 
 export default defineComponent({
   name: 'CCalendarMonth',
   components: { CCalendarDay },
   props: {
+    selectedDates: {
+      type: Object,
+      required: true,
+    },
     month: {
       type: Array,
       required: true,
     },
+    disabledDates: {
+      type: Array,
+      required: true,
+    },
   },
-  emits: [ 'select-day', 'selection-end' ],
+  emits: [ 'select-day', 'selection-end', 'selection' ],
   setup(props, context) {
     const selection = reactive({
-      start: null,
-      end: null,
-      onGoing: false,
-      restart: false,
+      initial: null,
+      start: props.selectedDates.min,
+      end: props.selectedDates.max,
     });
+    console.log(selection)
 
     const handleSelection = (day) => {
-      if(selection.restart){
-        selection.start = null;
-        selection.end = null;
-        selection.restart = false;
-      }
-      selection.onGoing = true;
-      if (!selection.start) {
-        selection.start = day.date;
-      } else {
-        isBefore(day.date, selection.end) ? selection.start = day.date : selection.end = day.date
-        selection.onGoing = false;
-        selection.restart = true;
-        context.emit('selection-end', selection);
+      if (!checkIfDateIsDisabled(day.date)) {
+        if (!selection.initial) {
+          selection.initial = day.date;
+          selection.end = null;
+          selection.start = null;
+        } else {
+          if (isBefore(day.date, selection.initial) && checkDateRange(day.date, selection.initial)) {
+            selection.start = day.date;
+            selection.end = selection.initial;
+            context.emit('selection', {
+              min: selection.start,
+              max: selection.end,
+            });
+          } else if (checkDateRange(selection.initial, day.date)) {
+            selection.start = selection.initial;
+            selection.end = day.date;
+            context.emit('selection', {
+              min: selection.start,
+              max: selection.end,
+            });
+          } else {
+            alert('Includes disabled dates');
+            selection.end = null;
+            selection.start = null;
+          }
+          selection.initial = null;
+        }
       }
     };
-    watch(selection, () => {
-      console.log(selection);
-    })
+
     const updateSelection = (day) => {
-      if (selection.onGoing) {
-        if (!selection.end && isBefore(day.date, selection.start)) {
-          selection.end = selection.start
+      if (selection.initial) {
+        if (isBefore(day.date, selection.initial)) {
+          selection.end = selection.initial;
           selection.start = day.date;
-        } else if(selection.end && isAfter(day.date, selection.end)){
-          selection.start = selection.end;
-          selection.end = day.date;
-        } else if (selection.end && isBefore(day.date, selection.end)){
-          selection.start = day.date;
-        } else if (selection.start && isAfter(day.date, selection.start)){
+        } else {
+          selection.start = selection.initial;
           selection.end = day.date;
         }
       }
     };
 
     const deleteSelection = (day) => {
-      if (selection.onGoing) {
-        if (isBefore(day.date, selection.end)){
+      if (selection.initial) {
+        if (isBefore(day.date, selection.initial)) {
           selection.start = null;
         } else {
-          selection.end = null
+          selection.end = null;
         }
       }
     };
@@ -99,7 +116,8 @@ export default defineComponent({
       if (selection.start === date && selection.end === date) {
         return 'c-calendar-day__point';
       }
-      if (selection.start === date) {
+      if (
+        selection.start === date) {
         return 'c-calendar-day__range--start';
       }
       if (selection.end === date) {
@@ -110,12 +128,19 @@ export default defineComponent({
       }
     };
 
+    const checkIfDateIsDisabled = (date) => props.disabledDates.includes(format(date, 'yyyy-MM-dd'));
+    const checkDateRange = (min,max) => !props.disabledDates.some(disabledDate => {
+      return isAfter(parseISO(disabledDate),min) && isBefore(parseISO(disabledDate),max)
+
+    });
+
     return {
       shortWeekNames,
       handleSelection,
       updateSelection,
       deleteSelection,
       getSelectionClasses,
+      checkIfDateIsDisabled,
     };
   },
 });

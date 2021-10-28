@@ -37,6 +37,11 @@ export default defineComponent({
   font-size: var(--font-size-18);
   cursor: pointer;
 
+  &__point {
+    border-radius: 50%;
+    background-color: var(--primary-500);
+  }
+
   &__range {
     &--start {
       border-radius: 50%;
@@ -73,9 +78,10 @@ export default defineComponent({
       background-color: var(--primary-300);
     }
   }
-
-  &:hover {
-    background-color: var(--primary-500);
+  &--active {
+    &:hover {
+      background-color: var(--primary-500);
+    }
   }
 
   &--inactive {
