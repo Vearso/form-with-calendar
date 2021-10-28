@@ -18,7 +18,6 @@ export const useCalendar = () => {
     const currentMonth = date.value.getMonth();
     const currentYear = date.value.getFullYear();
     const numberOfDaysInCurrentMonth = datefns.getDaysInMonth(date.value);
-
     currentMonthAndYear.value = `${monthNames[ currentMonth ]} ${currentYear}`;
 
     // Months are from 0 - 11 there we check if previous is December;

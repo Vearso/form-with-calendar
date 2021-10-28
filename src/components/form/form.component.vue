@@ -63,7 +63,9 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .c-form {
+  margin: 1.3rem;
   width: 30%;
+  border: 1px solid var(--gray-900);
   background-color: var(--gray-500);
   padding: 1.3rem;
 }

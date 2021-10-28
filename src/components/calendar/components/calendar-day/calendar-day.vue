@@ -1,7 +1,7 @@
 <template>
   <div
     class="c-calendar-day"
-    :class="day.month !== CURRENT && 'c-calendar-day--inactive'"
+    :class="[day.month !== CURRENT && 'c-calendar-day--inactive', day.date.getTime() === today.getTime() && 'c-calendar-day--today']"
   >
     {{ day.label }}
   </div>
@@ -10,6 +10,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { CURRENT }         from '@/components/calendar/hooks/use-calendar';
+import { startOfToday }    from 'date-fns';
 
 export default defineComponent({
   name: 'CCalendarDay',
@@ -20,7 +21,9 @@ export default defineComponent({
     },
   },
   setup() {
+    const today = startOfToday();
     return {
+      today,
       CURRENT,
     };
   },
@@ -36,6 +39,12 @@ export default defineComponent({
   align-items: center;
   font-size: var(--font-size-18);
   cursor: pointer;
+
+  &--today {
+    border-radius: 50%;
+    border: 1px solid var(--primary-500);
+    color: var(--primary-500);
+  }
 
   &__point {
     border-radius: 50%;
@@ -58,6 +67,7 @@ export default defineComponent({
         background-color: var(--primary-300);
       }
     }
+
     &--end {
       border-radius: 50%;
       position: relative;
@@ -78,6 +88,7 @@ export default defineComponent({
       background-color: var(--primary-300);
     }
   }
+
   &--active {
     &:hover {
       background-color: var(--primary-500);

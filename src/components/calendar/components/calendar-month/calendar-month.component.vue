@@ -57,7 +57,6 @@ export default defineComponent({
       start: props.selectedDates.min,
       end: props.selectedDates.max,
     });
-    console.log(selection)
 
     const handleSelection = (day) => {
       if (!checkIfDateIsDisabled(day.date)) {
@@ -73,12 +72,17 @@ export default defineComponent({
               min: selection.start,
               max: selection.end,
             });
-          } else if (checkDateRange(selection.initial, day.date)) {
+          } else if (isAfter(day.date, selection.initial) && checkDateRange(selection.initial, day.date)) {
             selection.start = selection.initial;
             selection.end = day.date;
             context.emit('selection', {
               min: selection.start,
               max: selection.end,
+            });
+          } else if(day.date.getTime() === selection.initial.getTime()){
+            context.emit('selection', {
+              min: selection.initial,
+              max: selection.initial,
             });
           } else {
             alert('Includes disabled dates');
@@ -113,14 +117,13 @@ export default defineComponent({
     };
 
     const getSelectionClasses = (date) => {
-      if (selection.start === date && selection.end === date) {
+      if (selection.start?.getTime() === date.getTime() && selection.end?.getTime() === date.getTime()) {
         return 'c-calendar-day__point';
       }
-      if (
-        selection.start === date) {
+      if (selection.start?.getTime() === date.getTime()) {
         return 'c-calendar-day__range--start';
       }
-      if (selection.end === date) {
+      if (selection.end?.getTime() === date.getTime()) {
         return 'c-calendar-day__range--end';
       }
       if (isBefore(date, selection.end) && isAfter(date, selection.start) || isBefore(date, selection.start) && isAfter(date, selection.end)) {

@@ -1,21 +1,19 @@
 <template>
   <div
-    class="c-shadow"
-    @click="$emit('close-calendar')"
+    class="c-calendar"
+    @click.stop
   >
-    <div class="c-calendar">
-      <c-calendar-header
-        :month-name="currentMonthAndYear"
-        @next-month="setNextMonth()"
-        @prev-month="setPrevMonth()"
-      />
-      <c-calendar-month
-        :disabled-dates="disabledDates"
-        :month="month"
-        :selected-dates="dateRange"
-        @selection="$emit('update:dateRange',$event)"
-      />
-    </div>
+    <c-calendar-header
+      :month-name="currentMonthAndYear"
+      @next-month="setNextMonth()"
+      @prev-month="setPrevMonth()"
+    />
+    <c-calendar-month
+      :disabled-dates="disabledDates"
+      :month="month"
+      :selected-dates="dateRange"
+      @selection="$emit('update:dateRange',$event)"
+    />
   </div>
 </template>
 
