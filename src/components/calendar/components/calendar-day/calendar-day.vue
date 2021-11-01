@@ -40,13 +40,8 @@ export default defineComponent({
   font-size: var(--font-size-18);
   cursor: pointer;
 
-  &--today {
-    border-radius: 50%;
-    border: 1px solid var(--primary-500);
-    color: var(--primary-500);
-  }
-
   &__point {
+    color: var(--white);
     border-radius: 50%;
     background-color: var(--primary-500);
   }
@@ -87,6 +82,9 @@ export default defineComponent({
     &--middle {
       background-color: var(--primary-300);
     }
+    &--middle.c-calendar-day--today {
+      color: var(--white);
+    }
   }
 
   &--active {
@@ -97,6 +95,15 @@ export default defineComponent({
 
   &--inactive {
     color: var(--gray-500);
+  }
+
+  &--today:not(.c-calendar-day__range--start, .c-calendar-day__range--end, .c-calendar-day__range--middle) {
+    border-radius: 50%;
+    border: 1px solid var(--primary-500);
+    color: var(--primary-500);
+    &:hover {
+      color: var(--white);
+    }
   }
 }
 </style>

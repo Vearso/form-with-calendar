@@ -26,10 +26,11 @@
 import {
   defineComponent,
   ref,
-}                  from 'vue';
-import CFormHeader from '@/components/form/components/form-header/form-header.component.vue';
+}                      from 'vue';
+import CFormHeader     from '@/components/form/components/form-header/form-header.component.vue';
 import CFormDatePicker from '@/components/form/components/form-date-picker/form-date-picker.component.vue';
 import CCalendar       from '@/components/calendar/calendar.component';
+import { parseISO }    from 'date-fns';
 
 export default defineComponent({
   name: 'CForm',
@@ -44,8 +45,11 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
-    const dateRange = ref({min: null, max: null});
+  setup(props) {
+    const dateRange = ref({
+      min: parseISO(props.data.selectedDates.min),
+      max: parseISO(props.data.selectedDates.max),
+    });
     const isCalendarOpen = ref(false);
 
     const toggleCalendar = (payload) => {
