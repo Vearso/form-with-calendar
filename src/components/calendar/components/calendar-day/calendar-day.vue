@@ -82,7 +82,9 @@ export default defineComponent({
     &--middle {
       background-color: var(--primary-300);
     }
-    &--middle.c-calendar-day--today {
+    &--middle.c-calendar-day--today,
+    &--end.c-calendar-day--today,
+    &--start.c-calendar-day--today {
       color: var(--white);
     }
   }
