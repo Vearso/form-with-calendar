@@ -80,6 +80,8 @@ export default defineComponent({
               max: selection.end,
             });
           } else if(day.date.getTime() === selection.initial.getTime()){
+            selection.start = selection.initial;
+            selection.end = selection.initial;
             context.emit('selection', {
               min: selection.initial,
               max: selection.initial,

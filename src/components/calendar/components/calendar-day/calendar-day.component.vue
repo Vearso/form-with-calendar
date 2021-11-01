@@ -41,9 +41,11 @@ export default defineComponent({
   cursor: pointer;
 
   &__point {
-    color: var(--white);
     border-radius: 50%;
     background-color: var(--primary-500);
+  }
+  &__point.c-calendar-day--today {
+    color: var(--white);
   }
 
   &__range {
@@ -99,13 +101,17 @@ export default defineComponent({
     color: var(--gray-500);
   }
 
-  &--today:not(.c-calendar-day__range--start, .c-calendar-day__range--end, .c-calendar-day__range--middle) {
+  &--today:not(.c-calendar-day__range--start, .c-calendar-day__range--end, .c-calendar-day__range--middle, .c-calendar-day__point) {
     border-radius: 50%;
     border: 1px solid var(--primary-500);
     color: var(--primary-500);
     &:hover {
       color: var(--white);
     }
+  }
+  &--today.c-calendar-day--inactive {
+    border-color: var(--gray-900);
+    color: var(--gray-900);
   }
 }
 </style>
