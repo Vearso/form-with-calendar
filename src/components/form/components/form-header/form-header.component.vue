@@ -1,7 +1,7 @@
 <template>
   <div class="c-form-header">
     <p class="c-form-header__price">
-      {{ `${price} zł` }}
+      {{ price }}
     </p>
     <c-rating
       :rating="rating"
@@ -19,7 +19,7 @@ export default defineComponent({
   components: { CRating },
   props: {
     price: {
-      type: Number,
+      type: String,
       required: true
     },
     rating: {
