@@ -24,7 +24,7 @@ import {
   defineComponent,
   reactive,
 }                         from 'vue';
-import CCalendarDay       from '@/components/calendar/components/calendar-day/calendar-day.vue';
+import CCalendarDay       from '@/components/calendar/components/calendar-day/calendar-day.component.vue';
 import { shortWeekNames } from '@/components/calendar/hooks/use-calendar';
 import {
   isBefore,
@@ -138,6 +138,7 @@ export default defineComponent({
     });
 
     return {
+      selection,
       shortWeekNames,
       handleSelection,
       updateSelection,
