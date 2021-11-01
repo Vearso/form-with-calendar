@@ -1,12 +1,12 @@
 import {
   mount,
-}                       from '@vue/test-utils';
-import CCalendarDay     from '../calendar-day.vue';
+}                   from '@vue/test-utils';
+import CCalendarDay from '@/components/calendar/components/calendar-day/calendar-day.component.vue';
 import {
   CURRENT,
   PREVIOUS,
   NEXT
-}                       from '@/components/calendar/hooks/use-calendar';
+}                   from '@/components/calendar/hooks/use-calendar';
 import { startOfToday } from 'date-fns';
 
 const factory = (props) => {
