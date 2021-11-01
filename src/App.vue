@@ -16,7 +16,11 @@ export default defineComponent({
       price: '232 zł',
       rating: 4.2,
       numberOfRatings: 123,
-      disabledDates: ['2021-10-13','2021-10-16']
+      disabledDates: ['2021-10-13','2021-10-16'],
+      selectedDates: {
+        min: '2021-11-01',
+        max: '2021-11-23',
+      }
     };
 
     return {
